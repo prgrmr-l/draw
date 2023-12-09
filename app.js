@@ -66,6 +66,7 @@ function onColorChange(event) {
 
 function onColorClick(event) {
   //console.dir(event.target.dataset.color);
+  //html에서 "data-"를 입력해서 event.target.dataset.color을 이용할 수 있다.
   const colorValue = event.target.dataset.color;
   ctx.strokeStyle = colorValue;
   ctx.fillStyle = colorValue;
