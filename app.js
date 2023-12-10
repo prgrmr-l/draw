@@ -1,3 +1,4 @@
+const fileInput = document.getElementById("file");
 const modeBtn = document.getElementById("mode-btn");
 const modeClear = document.getElementById("clear-btn");
 const modeErase = document.getElementById("eraser-btn");
@@ -81,6 +82,21 @@ function onErase() {
   isFilling = false;
   modeBtn.innerText = "Draw";
 }
+function onFileChange(event) {
+  const file = event.target.files[0];
+  const url = URL.createObjectURL(file);
+  // console.dir(url);
+  // URL.createObjectURL(file)에서 파일의 URL을 만들어 준다.
+  // 브라우저가 자신의 메모리에만 저장. 다른 브라우저나 인터넷주소로 볼 수 없다.
+  const image = new Image();
+  image.src = url;
+  // html의 <img src = ""/>와 같다.
+  image.onload = function () {
+    ctx.drawImage(image, 0, 0, CANVAS_HEIGHT, CANVAS_WIDTH);
+    fileInput.value = null;
+    // 파일을 업로드 하고 fileInput을 비운다.
+  };
+}
 
 canvas.addEventListener("click", onCanvasClick);
 canvas.addEventListener("mousemove", onMove);
@@ -89,10 +105,10 @@ canvas.addEventListener("mouseup", cancelPainting);
 canvas.addEventListener("mouseleave", cancelPainting);
 lineWidth.addEventListener("change", onLineWidthChange);
 colors.addEventListener("change", onColorChange);
-
 colorOptions.forEach((colors) =>
   colors.addEventListener("click", onColorClick)
 );
 modeBtn.addEventListener("click", onModeClick);
 modeClear.addEventListener("click", onClear);
 modeErase.addEventListener("click", onErase);
+fileInput.addEventListener("change", onFileChange);
